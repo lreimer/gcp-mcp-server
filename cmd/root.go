@@ -55,5 +55,5 @@ func SetVersion(v string) {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, see")
+	rootCmd.PersistentFlags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, sse")
 }
