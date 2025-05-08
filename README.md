@@ -4,9 +4,10 @@ A MCP server implementation for Google Cloud using Go and Cobra.
 The server supports `stdio` as well as `SSE` as transport. The following
 services and operations have been implemented:
 
-- Container Services
+- **Container**: Clusters List, Cluster Describe
+- **Cloud Run**: Services List, Service Describe
 
-## Build and Deploy
+## Build and Release
 
 ```bash
 goreleaser build --snapshot --clean
@@ -41,7 +42,6 @@ go run main.go --transport sse
 npx @modelcontextprotocol/inspector npx mcp-remote@next http://localhost:8000/mcp
 npx @modelcontextprotocol/inspector
 ```
-
 
 ## Maintainer
 
