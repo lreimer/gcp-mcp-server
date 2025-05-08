@@ -1,7 +1,10 @@
 # Google Cloud MCP Server
 
 A MCP server implementation for Google Cloud using Go and Cobra.
-The server supports `stdio` as well as `SSE` as transport.
+The server supports `stdio` as well as `SSE` as transport. The following
+services and operations have been implemented:
+
+- Container Services
 
 ## Build and Deploy
 
@@ -27,6 +30,18 @@ configuration for the MCP server.
     }
 }
 ```
+
+Alternatively, you can use the MCP introspector for easy local development:
+```bash
+# as stdio binary
+npx @modelcontextprotocol/inspector go run main.go
+
+# as SSE server using 
+go run main.go --transport sse
+npx @modelcontextprotocol/inspector npx mcp-remote@next http://localhost:8000/mcp
+npx @modelcontextprotocol/inspector
+```
+
 
 ## Maintainer
 

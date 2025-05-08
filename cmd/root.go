@@ -4,12 +4,16 @@ import (
 	"log"
 	"os"
 
+	"github.com/lreimer/gcp-mcp-server/gcp"
 	"github.com/mark3labs/mcp-go/server"
 	"github.com/spf13/cobra"
 )
 
 var version string
+var capabilities []string
 var transport string
+var baseURL string
+var port string
 
 var rootCmd = &cobra.Command{
 	Use:   "gcp-mcp-server",
@@ -27,11 +31,19 @@ var rootCmd = &cobra.Command{
 			server.WithLogging(),
 		)
 
+		// Add the capabilities to the server
+		for _, cap := range capabilities {
+			if cap == "container" || cap == "all" {
+				gcp.AddContainerTools(s)
+			}
+		}
+
 		// Only check for "sse" since stdio is the default
 		if transport == "sse" {
-			sseServer := server.NewSSEServer(s, server.WithBaseURL("http://localhost:8080"))
-			log.Printf("MCP Server (SSE) listening on :8080")
-			if err := sseServer.Start(":8080"); err != nil {
+			sseServer := server.NewSSEServer(s, server.WithBaseURL(baseURL))
+			ssePort := "0.0.0.0:" + port
+			log.Printf("MCP Server (SSE) listening on %s", ssePort)
+			if err := sseServer.Start(ssePort); err != nil {
 				log.Fatalf("MCP Server (SSE) error: %v", err)
 			}
 		} else {
@@ -55,5 +67,8 @@ func SetVersion(v string) {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, sse")
+	rootCmd.Flags().StringArrayVarP(&capabilities, "capabilities", "c", []string{"all"}, "The capabilities to use. Valid options: all, container, run")
+	rootCmd.Flags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, sse")
+	rootCmd.Flags().StringVarP(&baseURL, "url", "u", "http://localhost:8000", "The public SSE base URL to use.")
+	rootCmd.Flags().StringVarP(&port, "port", "p", "8000", "The local SSE server port to use.")
 }

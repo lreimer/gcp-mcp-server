@@ -10,7 +10,12 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
-func AddClusterTools(s *server.MCPServer) {
+// Adds all the supported GCP container services as tool to the server
+func AddContainerTools(s *server.MCPServer) {
+	clusterList(s)
+}
+
+func clusterList(s *server.MCPServer) {
 	// create a new MCP tool for listing Sonar projects
 	projectsTool := mcp.NewTool("cluster_list",
 		mcp.WithDescription("List existing GKE Kubernetes clusters with running containers."),
