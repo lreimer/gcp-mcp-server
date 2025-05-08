@@ -21,11 +21,11 @@ func clusterList(s *server.MCPServer) {
 		mcp.WithDescription("List existing GKE Kubernetes clusters with running containers."),
 		mcp.WithString("project",
 			mcp.Description("The GCP project name. '*' matches all projects."),
-			mcp.DefaultString("*"),
+			mcp.Required(),
 		),
 		mcp.WithString("location",
-			mcp.Description("Compute zone or region (e.g. us-central1-a or us-central1) for the clusters."),
-			mcp.DefaultString("*"),
+			mcp.Description("Compute zone or region (e.g. europe-west4 or europe-north1) for the clusters. '*' matches all locations."),
+			mcp.Required(),
 		),
 	)
 
