@@ -12,7 +12,7 @@ import (
 
 // Adds all the supported GCP container services as tool to the server
 func AddContainerTools(s *server.MCPServer) {
-	clusterList(s)
+	clustersList(s)
 	clusterDescribe(s)
 }
 
@@ -61,7 +61,7 @@ func clusterDescribe(s *server.MCPServer) {
 
 func clusterList(s *server.MCPServer) {
 	// create a new MCP tool for listing Sonar projects
-	projectsTool := mcp.NewTool("cluster_list",
+	projectsTool := mcp.NewTool("clusters_list",
 		mcp.WithDescription("List existing GKE Kubernetes clusters with running containers."),
 		mcp.WithString("project",
 			mcp.Description("The GCP project name. '*' matches all projects."),

@@ -36,6 +36,9 @@ var rootCmd = &cobra.Command{
 			if cap == "container" || cap == "all" {
 				gcp.AddContainerTools(s)
 			}
+			if cap == "run" || cap == "all" {
+				gcp.AddCloudRunTools(s)
+			}
 		}
 
 		// Only check for "sse" since stdio is the default
