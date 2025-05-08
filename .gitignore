@@ -26,3 +26,4 @@ go.work.sum
 # Added by goreleaser init:
 dist/
 gcp-mcp-server
+gcp-mcp-server-sa.json
