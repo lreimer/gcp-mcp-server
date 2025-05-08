@@ -97,15 +97,10 @@ func servicesList(s *server.MCPServer) {
 			Parent: "projects/" + project + "/locations/" + location,
 		}
 
-		// Call the API
+		// Use iterator to collect all projects
 		it := c.ListServices(ctx, req)
-		if it.PageInfo().Remaining() == 0 {
-			return mcp.NewToolResultText("No Cloud Run services found."), nil
-		}
-
-		// Iterate through the services
-		// and collect the results a slice
 		var services []*runpb.Service
+
 		for {
 			resp, err := it.Next()
 			if err == iterator.Done {
@@ -114,6 +109,11 @@ func servicesList(s *server.MCPServer) {
 
 			// add service to the list
 			services = append(services, resp)
+		}
+
+		// Check if the response is empty
+		if len(services) == 0 {
+			return mcp.NewToolResultText("No Cloud Run services found."), nil
 		}
 
 		// Return the result

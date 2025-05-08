@@ -39,6 +39,9 @@ var rootCmd = &cobra.Command{
 			if cap == "run" || cap == "all" {
 				gcp.AddCloudRunTools(s)
 			}
+			if cap == "project" || cap == "all" {
+				gcp.AddProjectTools(s)
+			}
 		}
 
 		// Only check for "sse" since stdio is the default
@@ -70,7 +73,7 @@ func SetVersion(v string) {
 }
 
 func init() {
-	rootCmd.Flags().StringArrayVarP(&capabilities, "capabilities", "c", []string{"all"}, "The capabilities to use. Valid options: all, container, run")
+	rootCmd.Flags().StringArrayVarP(&capabilities, "capabilities", "c", []string{"all"}, "The capabilities to use. Valid options: all, container, run, project")
 	rootCmd.Flags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, sse")
 	rootCmd.Flags().StringVarP(&baseURL, "url", "u", "http://localhost:8000", "The public SSE base URL to use.")
 	rootCmd.Flags().StringVarP(&port, "port", "p", "8000", "The local SSE server port to use.")

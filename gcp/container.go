@@ -59,7 +59,7 @@ func clusterDescribe(s *server.MCPServer) {
 	})
 }
 
-func clusterList(s *server.MCPServer) {
+func clustersList(s *server.MCPServer) {
 	// create a new MCP tool for listing Sonar projects
 	projectsTool := mcp.NewTool("clusters_list",
 		mcp.WithDescription("List existing GKE Kubernetes clusters with running containers."),

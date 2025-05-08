@@ -4,6 +4,7 @@ A MCP server implementation for Google Cloud using Go and Cobra.
 The server supports `stdio` as well as `SSE` as transport. The following
 services and operations have been implemented:
 
+- **Projects**: Projects List, Project Describe
 - **Container**: Clusters List, Cluster Describe
 - **Cloud Run**: Services List, Service Describe
 

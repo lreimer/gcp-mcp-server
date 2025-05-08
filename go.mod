@@ -4,6 +4,7 @@ go 1.24.2
 
 require (
 	cloud.google.com/go/container v1.42.4
+	cloud.google.com/go/resourcemanager v1.10.6
 	cloud.google.com/go/run v1.9.3
 	github.com/mark3labs/mcp-go v0.26.0
 	github.com/spf13/cobra v1.9.1
