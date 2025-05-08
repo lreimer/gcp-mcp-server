@@ -13,6 +13,50 @@ import (
 // Adds all the supported GCP container services as tool to the server
 func AddContainerTools(s *server.MCPServer) {
 	clusterList(s)
+	clusterDescribe(s)
+}
+
+func clusterDescribe(s *server.MCPServer) {
+	// create a new MCP tool for describing Sonar projects
+	projectsTool := mcp.NewTool("cluster_describe",
+		mcp.WithDescription("Get and describe a GKE Kubernetes cluster."),
+		mcp.WithString("name",
+			mcp.Description("The name of the cluster to describe."),
+			mcp.Required(),
+		),
+		mcp.WithString("project",
+			mcp.Description("The GCP project name."),
+			mcp.Required(),
+		),
+		mcp.WithString("location",
+			mcp.Description("Compute zone or region (e.g. europe-west4 or europe-north1) for the clusters."),
+			mcp.Required(),
+		),
+	)
+
+	// add the tool to the server
+	s.AddTool(projectsTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		// Extract the location parameter from the request
+		project := request.Params.Arguments["project"].(string)
+		location := request.Params.Arguments["location"].(string)
+		name := request.Params.Arguments["name"].(string)
+
+		c, err := container.NewClusterManagerClient(context.Background())
+		if err != nil {
+			return mcp.NewToolResultErrorFromErr("unable to create cluster manager client.", err), err
+		}
+		defer c.Close()
+
+		req := &containerpb.GetClusterRequest{
+			Name: "projects/" + project + "/locations/" + location + "/clusters/" + name,
+		}
+		resp, err := c.GetCluster(ctx, req)
+		if err != nil {
+			return mcp.NewToolResultErrorFromErr("unable to describe cluster.", err), err
+		}
+
+		return newToolResult(resp)
+	})
 }
 
 func clusterList(s *server.MCPServer) {
