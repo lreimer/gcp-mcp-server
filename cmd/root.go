@@ -32,15 +32,23 @@ var rootCmd = &cobra.Command{
 		)
 
 		// Add the capabilities to the server
+		capabilityHandlers := map[string]func(*server.MCPServer){
+			"container": gcp.AddContainerTools,
+			"run":       gcp.AddCloudRunTools,
+			"project":   gcp.AddProjectTools,
+		}
+
 		for _, cap := range capabilities {
-			if cap == "container" || cap == "all" {
-				gcp.AddContainerTools(s)
+			if cap == "all" {
+				// Add all capabilities
+				for _, handler := range capabilityHandlers {
+					handler(s)
+				}
+				break
 			}
-			if cap == "run" || cap == "all" {
-				gcp.AddCloudRunTools(s)
-			}
-			if cap == "project" || cap == "all" {
-				gcp.AddProjectTools(s)
+
+			if handler, exists := capabilityHandlers[cap]; exists {
+				handler(s)
 			}
 		}
 
