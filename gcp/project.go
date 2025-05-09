@@ -23,6 +23,7 @@ func projectDescribe(s *server.MCPServer) {
 		mcp.WithDescription("Get and describe a Google Cloud Project."),
 		mcp.WithString("name",
 			mcp.Description("The name of the project to describe (either project ID or project number)."),
+			mcp.DefaultString(Project),
 			mcp.Required(),
 		),
 	)
@@ -57,6 +58,7 @@ func projectsList(s *server.MCPServer) {
 		mcp.WithDescription("List existing Google Cloud Projects."),
 		mcp.WithString("organization",
 			mcp.Description("The GCP organization ID."),
+			mcp.DefaultString(Organization),
 			mcp.Required(),
 		),
 	)

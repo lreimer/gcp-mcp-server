@@ -26,7 +26,6 @@ var rootCmd = &cobra.Command{
 		s := server.NewMCPServer(
 			"Google Cloud Platform API",
 			version,
-			server.WithResourceCapabilities(true, true),
 			server.WithRecovery(),
 			server.WithLogging(),
 		)
@@ -40,15 +39,13 @@ var rootCmd = &cobra.Command{
 
 		for _, cap := range capabilities {
 			if cap == "all" {
-				// Add all capabilities
 				for _, handler := range capabilityHandlers {
 					handler(s)
 				}
-				break
-			}
-
-			if handler, exists := capabilityHandlers[cap]; exists {
-				handler(s)
+			} else {
+				if handler, exists := capabilityHandlers[cap]; exists {
+					handler(s)
+				}
 			}
 		}
 
@@ -85,4 +82,19 @@ func init() {
 	rootCmd.Flags().StringVarP(&transport, "transport", "t", "stdio", "Transport to use. Valid options: stdio, sse")
 	rootCmd.Flags().StringVarP(&baseURL, "url", "u", "http://localhost:8000", "The public SSE base URL to use.")
 	rootCmd.Flags().StringVarP(&port, "port", "p", "8000", "The local SSE server port to use.")
+
+	rootCmd.Flags().StringVar(&gcp.Project, "project", "", "The GCP project name.")
+	rootCmd.Flags().StringVar(&gcp.Location, "location", "", "The GCP location (e.g. europe-west1).")
+	rootCmd.Flags().StringVar(&gcp.Organization, "organization", "", "The GCP organization ID.")
+
+	// override the default port with ENV if specified
+	// use port parameter as default
+	if envPort, ok := os.LookupEnv("PORT"); ok {
+		port = envPort
+	}
+	// override the default baseURL with ENV if specified
+	// use baseURL parameter as default
+	if envBaseURL, ok := os.LookupEnv("BASE_URL"); ok {
+		baseURL = envBaseURL
+	}
 }

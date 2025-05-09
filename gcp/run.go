@@ -71,10 +71,12 @@ func servicesList(s *server.MCPServer) {
 		mcp.WithDescription("List existing Google Cloud Run services."),
 		mcp.WithString("project",
 			mcp.Description("The GCP project name."),
+			mcp.DefaultString(Project),
 			mcp.Required(),
 		),
 		mcp.WithString("location",
 			mcp.Description("Region (e.g. europe-west1) for the services. Use a specific region, as Cloud Run is regional."),
+			mcp.DefaultString(Location),
 			mcp.Required(),
 		),
 	)
