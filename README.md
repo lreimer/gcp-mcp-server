@@ -75,8 +75,8 @@ gcloud secrets add-iam-policy-binding $SA_NAME \
 gcloud run deploy gcp-mcp-server --source=. \
   --region=europe-north1 \
   --port=8000 --allow-unauthenticated \
-  --set-secrets=/gcp-mcp-server-sa.json=gcp-mcp-server-sa:latest \
-  --set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=/gcp-mcp-server-sa.json,BASE_URL=https://gcp-mcp-server-343509396461.europe-north1.run.app
+  --set-secrets=/secrets/gcp-mcp-server-sa.json=gcp-mcp-server-sa:latest \
+  --set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=/secrets/gcp-mcp-server-sa.json,BASE_URL=https://gcp-mcp-server-343509396461.europe-north1.run.app
 ```
 
 ## Maintainer
