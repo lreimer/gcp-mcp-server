@@ -77,6 +77,8 @@ gcloud run deploy gcp-mcp-server --source=. \
   --port=8000 --allow-unauthenticated \
   --set-secrets=/secrets/gcp-mcp-server-sa.json=gcp-mcp-server-sa:latest \
   --set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=/secrets/gcp-mcp-server-sa.json,BASE_URL=https://gcp-mcp-server-343509396461.europe-north1.run.app
+
+gcloud run services delete gcp-mcp-server --async --region=europe-north1
 ```
 
 ## Maintainer
